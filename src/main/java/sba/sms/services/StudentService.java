@@ -4,6 +4,7 @@ import jakarta.persistence.TypedQuery;
 import lombok.extern.java.Log;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.NativeQuery;
 import sba.sms.dao.StudentI;
 import sba.sms.models.Course;
 import sba.sms.models.Student;
@@ -25,7 +26,7 @@ public class StudentService implements StudentI {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
 
-        List<Student> students = session.createQuery("FROM student", Student.class).getResultList();
+        List<Student> students = session.createQuery("FROM Student", Student.class).getResultList();
 
         tx.commit();
         session.close();
@@ -70,7 +71,7 @@ public class StudentService implements StudentI {
 
         //tries to query the database for a student with matching email
         try {
-            TypedQuery<Student> query = session.createQuery("FROM student WHERE email = :email", Student.class);
+            TypedQuery<Student> query = session.createQuery("FROM Student WHERE email = :email", Student.class);
             query.setParameter(1, email);
             result = query.getSingleResult();
             tx.commit();
@@ -101,7 +102,7 @@ public class StudentService implements StudentI {
 
         //try to retrieve a student with the credentials that were given
         try {
-            TypedQuery<Student> query = session.createQuery("FROM student WHERE :email = email AND :pw = password",
+            TypedQuery<Student> query = session.createQuery("FROM Student WHERE :email = email AND :pw = password",
                     Student.class);
             query.setParameter(1, email);
             query.setParameter(2, password);
@@ -169,7 +170,7 @@ public class StudentService implements StudentI {
 
         try {
             //selecting course information from course table based on the student's email
-            TypedQuery<Course> query = session.createQuery("SELECT c.id, c.name, c.instructor FROM student AS s " +
+            NativeQuery<Course> query = session.createNativeQuery("SELECT c.id, c.name, c.instructor FROM student AS s " +
                                         "JOIN student_courses AS sc ON s.email = sc.email " +
                                         "JOIN course AS c ON sc.course_id = c.id WHERE s.email = ?", Course.class);
             query.setParameter(1, email);

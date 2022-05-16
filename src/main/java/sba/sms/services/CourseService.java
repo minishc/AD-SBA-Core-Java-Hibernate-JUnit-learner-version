@@ -50,7 +50,7 @@ public class CourseService implements CourseI {
         Course result = null;
 
         try {
-            TypedQuery<Course> query = session.createQuery("FROM course WHERE id = :id", Course.class);
+            TypedQuery<Course> query = session.createQuery("FROM Course WHERE id = :id", Course.class);
             query.setParameter(1, courseId);
             result = query.getSingleResult();
             tx.commit();
@@ -78,7 +78,7 @@ public class CourseService implements CourseI {
         List<Course> courses = new ArrayList<>();
 
         try {
-            courses = session.createQuery("FROM course", Course.class).getResultList();
+            courses = session.createQuery("FROM Course", Course.class).getResultList();
             tx.commit();
         }
         catch(Exception exception) {
