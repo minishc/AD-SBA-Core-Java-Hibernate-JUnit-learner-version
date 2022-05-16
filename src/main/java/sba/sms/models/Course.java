@@ -30,22 +30,8 @@ public class Course {
     String instructor;
 
     @ToString.Exclude
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "courses", cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     List<Student> students = new ArrayList<>();
-
-    /*
-        Helper methods for maintaining the list of students and courses in the
-        respective models for the many-to-many relationship
-    */
-
-    public void addStudent(Student student) {
-        students.add(student);
-        student.getCourses().add(this);
-    }
-
-    public void removeStudent(String email) {
-
-    }
 
     /*
         Checks if the parameter Object is the same as this Course Object, then
