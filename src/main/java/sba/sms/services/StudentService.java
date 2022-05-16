@@ -72,7 +72,7 @@ public class StudentService implements StudentI {
         //tries to query the database for a student with matching email
         try {
             TypedQuery<Student> query = session.createQuery("FROM Student WHERE email = :email", Student.class);
-            query.setParameter(1, email);
+            query.setParameter("email", email);
             result = query.getSingleResult();
             tx.commit();
         } //if an exception occurs roll back the transaction, default result is null so do nothing with it
@@ -104,8 +104,8 @@ public class StudentService implements StudentI {
         try {
             TypedQuery<Student> query = session.createQuery("FROM Student WHERE :email = email AND :pw = password",
                     Student.class);
-            query.setParameter(1, email);
-            query.setParameter(2, password);
+            query.setParameter("email", email);
+            query.setParameter("pw", password);
             Student verification = query.getSingleResult();
             //if we get a Student value from the database adjust the result to valid credentials
             if(verification != null) {
@@ -171,8 +171,8 @@ public class StudentService implements StudentI {
         try {
             //selecting course information from course table based on the student's email
             NativeQuery<Course> query = session.createNativeQuery("SELECT c.id, c.name, c.instructor FROM student AS s " +
-                                        "JOIN student_courses AS sc ON s.email = sc.email " +
-                                        "JOIN course AS c ON sc.course_id = c.id WHERE s.email = ?", Course.class);
+                                        "JOIN student_courses AS sc ON s.email = sc.student_email " +
+                                        "JOIN course AS c ON sc.courses_id = c.id WHERE s.email = ?", Course.class);
             query.setParameter(1, email);
             courses = query.getResultList();
             tx.commit();

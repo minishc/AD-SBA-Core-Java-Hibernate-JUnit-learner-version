@@ -51,7 +51,7 @@ public class CourseService implements CourseI {
 
         try {
             TypedQuery<Course> query = session.createQuery("FROM Course WHERE id = :id", Course.class);
-            query.setParameter(1, courseId);
+            query.setParameter("id", courseId);
             result = query.getSingleResult();
             tx.commit();
         }

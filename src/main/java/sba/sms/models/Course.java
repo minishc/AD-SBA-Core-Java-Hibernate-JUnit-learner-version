@@ -30,7 +30,8 @@ public class Course {
     String instructor;
 
     @ToString.Exclude
-    @ManyToMany(mappedBy = "courses", cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "courses", cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST},
+        fetch = FetchType.EAGER)
     List<Student> students = new ArrayList<>();
 
     /*
