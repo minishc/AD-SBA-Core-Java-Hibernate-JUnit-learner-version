@@ -45,10 +45,6 @@ public class Student {
         course.getStudents().add(this);
     }
 
-    public void removeCourse(int courseID) {
-
-    }
-
     /*
         Checks to ensure that the object to be compared is a Student
         and then compares the unique identifier of the Student's email
@@ -61,7 +57,9 @@ public class Student {
 
         Student student = (Student) o;
 
-        return Objects.equals(getEmail(), student.getEmail());
+        return  getEmail().equals(student.getEmail()) &&
+                getName().equals(student.getName()) &&
+                getPassword().equals(student.getPassword());
     }
 
     @Override

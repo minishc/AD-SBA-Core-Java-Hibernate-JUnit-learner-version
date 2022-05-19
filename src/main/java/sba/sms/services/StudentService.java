@@ -25,10 +25,18 @@ public class StudentService implements StudentI {
     public List<Student> getAllStudents() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = session.beginTransaction();
+        List<Student> students = new ArrayList<>();
+        try {
+            students = session.createQuery("FROM Student", Student.class).getResultList();
+            tx.commit();
+        }
+        catch(Exception exception) {
+            log.info(exception.toString());
+            if(tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+        }
 
-        List<Student> students = session.createQuery("FROM Student", Student.class).getResultList();
-
-        tx.commit();
         session.close();
         return students;
     }

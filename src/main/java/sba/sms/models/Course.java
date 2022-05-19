@@ -46,7 +46,9 @@ public class Course {
 
         Course course = (Course) o;
 
-        return getId() == course.getId();
+        return  getId() == course.getId() &&
+                getName().equals(course.getName()) &&
+                getInstructor().equals(course.getInstructor());
     }
 
     @Override
