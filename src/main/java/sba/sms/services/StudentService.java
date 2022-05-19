@@ -56,7 +56,7 @@ public class StudentService implements StudentI {
             tx.commit();
         } //if an exception occurs prints the exception info and rolls back the transaction
         catch(Exception exception) {
-            log.info(exception.toString());
+            log.info("Unable to create the student in the database");
             if(tx != null && tx.isActive()) {
                 tx.rollback();
             }
@@ -85,7 +85,7 @@ public class StudentService implements StudentI {
             tx.commit();
         } //if an exception occurs roll back the transaction, default result is null so do nothing with it
         catch(Exception exception) {
-            log.info(exception.toString());
+            log.info("There was no student found with this email address");
             if(tx != null && tx.isActive()) {
                 tx.rollback();
             }
@@ -121,7 +121,7 @@ public class StudentService implements StudentI {
             }
         } //in the case of an exception result is already false, roll back the transaction
         catch(Exception exception) {
-            log.info(exception.toString());
+            log.info("Invalid credentials please enter again");
             if(tx != null && tx.isActive()) {
                 tx.rollback();
             }
